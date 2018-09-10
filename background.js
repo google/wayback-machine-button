@@ -12,6 +12,20 @@
 // License for the specific language governing permissions and limitations under
 // the License.
 
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.pageAction.onClicked.addListener(function(tab) {
   chrome.tabs.update(null, {url: 'https://web.archive.org/web/*/' + tab.url});
+});
+
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.declarativeContent.onPageChanged.removeRules(null, function() {
+    chrome.declarativeContent.onPageChanged.addRules([
+      {
+        conditions: [
+          new chrome.declarativeContent.PageStateMatcher(
+              {pageUrl: {schemes: ['ftp', 'http', 'https']}}),
+        ],
+        actions: [new chrome.declarativeContent.ShowPageAction()],
+      },
+    ]);
+  });
 });
