@@ -23,7 +23,7 @@ all: $(NAME).zip icon_bordered.png
 $(NAME).zip: $(FILES)
 	mkdir $(NAME)
 	cp -al $(FILES) $(NAME)
-	zip -r $(NAME) $(NAME)
+	zip -9r $(NAME) $(NAME)
 	$(RM) -r $(NAME)
 
 .PHONY: unpacked
