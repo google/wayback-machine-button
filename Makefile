@@ -14,7 +14,7 @@
 
 NAME = wayback_machine_button
 
-FILES = background.js manifest.json $(ICONS)
+FILES = background.js manifest.json options.html options.js $(ICONS)
 ICONS = icon128.png icon16.png icon48.png
 
 .PHONY: all

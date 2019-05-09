@@ -13,7 +13,15 @@
 // the License.
 
 chrome.pageAction.onClicked.addListener(function(tab) {
-  chrome.tabs.update(null, {url: 'https://web.archive.org/web/*/' + tab.url});
+  chrome.storage.sync.get({
+    clickBehavior: 'search',
+  }, function(items) {
+    let waybackStem = 'https://web.archive.org/web/*/';
+    if (items.clickBehavior == 'direct') {
+      waybackStem = 'https://web.archive.org/web/';
+    }
+    chrome.tabs.update(null, {url: waybackStem + tab.url});
+  });
 });
 
 chrome.runtime.onInstalled.addListener(function() {
