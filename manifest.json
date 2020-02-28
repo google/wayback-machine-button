@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Wayback Machine Lookup",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Reopen the current tab in the Wayback Machine",
   "icons": {
     "16": "icon16.png",
@@ -16,13 +16,14 @@
     "persistent": false,
     "scripts": ["background.js"]
   },
-  "minimum_chrome_version": "33",
+  "minimum_chrome_version": "35",
   "options_ui": {
     "chrome_style": true,
     "page": "options.html"
   },
   "permissions": [
     "activeTab",
+    "contextMenus",
     "declarativeContent",
     "storage"
   ]

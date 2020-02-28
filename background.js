@@ -12,7 +12,9 @@
 // License for the specific language governing permissions and limitations under
 // the License.
 
-chrome.pageAction.onClicked.addListener(function(tab) {
+const MENU_ITEM_OPEN_LINK = 'openLink';
+
+function open(url) {
   chrome.storage.sync.get({
     clickBehavior: 'search',
   }, function(items) {
@@ -20,8 +22,18 @@ chrome.pageAction.onClicked.addListener(function(tab) {
     if (items.clickBehavior == 'direct') {
       waybackStem = 'https://web.archive.org/web/';
     }
-    chrome.tabs.update(null, {url: waybackStem + tab.url});
+    chrome.tabs.update(null, {url: waybackStem + url});
   });
+}
+
+chrome.pageAction.onClicked.addListener(function(tab) {
+  open(tab.url);
+});
+
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+  if (info.menuItemId == MENU_ITEM_OPEN_LINK) {
+    open(info.linkUrl);
+  }
 });
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -35,5 +47,12 @@ chrome.runtime.onInstalled.addListener(function() {
         actions: [new chrome.declarativeContent.ShowPageAction()],
       },
     ]);
+  });
+
+  chrome.contextMenus.create({
+    'id': MENU_ITEM_OPEN_LINK,
+    'title': 'Open link in the Wayback Machine',
+    'contexts': ['link'],
+    'targetUrlPatterns': ['ftp://*/*', 'http://*/*', 'https://*/*'],
   });
 });
